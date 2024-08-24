@@ -1,7 +1,7 @@
 const canvas: HTMLCanvasElement | null = document.querySelector('#playfield');
 
 export const GAME_WIDTH = 800;
-export const GAME_HEIGHT = 400;
+export const GAME_HEIGHT = 600;
 export const STAGE_PADDING = 10;
 export const STAGE_ROWS = 6;
 export const STAGE_COLS = 12;
@@ -56,14 +56,6 @@ export type BrickCollision = {
 
 export const MAX_LEVELS = 4;
 export const Level:number[][] = [
-    [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 6, 0, 0, 0, 0, 6, 0, 0, 0
-    ],
     [
         0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0,
         0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0,

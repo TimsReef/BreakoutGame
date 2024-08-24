@@ -68,10 +68,11 @@ export class ScoreBoard {
     }
 
     draw({ ctx }: DrawProps) {
-        ctx.font = "12px Arial";
-        ctx.fillStyle = 'red';
+        ctx.strokeStyle = "#004161";
         ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
 
+        ctx.font = "12px Arial";
+        ctx.fillStyle = 'red';
         ctx.fillText(`Score: ${this.score}`, this.position.x + this.BORDER, this.position.y + this.height / 2, 200);
 
         const x = (this.width / 2) - ((BALL_SIZE + this.BALL_GAP) * this.ballCount) / 2 - (this.BORDER * 2);

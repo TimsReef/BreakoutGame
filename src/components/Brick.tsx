@@ -61,6 +61,10 @@ export class Brick {
 
     draw({ ctx }: DrawProps) {
         ctx.fillStyle = this.color;
+        const gradient = ctx.createLinearGradient(this.position.x + this.width/2, this.position.y + this.height, this.position.x + this.width/2, this.position.y-5);
+        gradient.addColorStop(0.0, this.color);
+        gradient.addColorStop(1.0, "white");
+        ctx.fillStyle = gradient;
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
