@@ -6,6 +6,7 @@ import { Brick } from '../components/Brick';
 import { Paddle } from '../components/Paddle';
 import { Message } from '../components/Message';
 import { DrawProps } from '../constants/types';
+import { Sound, Sounds } from '../components/Sounds';
 
 interface DrawArgs {
     ctx: CanvasRenderingContext2D;    
@@ -17,6 +18,7 @@ enum GameState {
     start = 2,
     over = 3
 }
+
 export class GameLogic {
     private score: number = 0;
     private balls: number = BALLS_GAME;
@@ -27,7 +29,7 @@ export class GameLogic {
     private bricks: Brick[] = this.createBricks();
     private paddle: Paddle = new Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, { x: PADDLE_STARTX, y: PADDLE_STARTY }, "white", PADDLE_SPEED);
     private message: Message = new Message(GAME_WIDTH, 30, { x: 0, y: 200 });
-
+    private sound: Sounds = new Sounds();
 
     createBricks(): Brick[] {
         const Bricks: number[] = Level[this.level-1];
@@ -90,14 +92,11 @@ export class GameLogic {
 
         //const messageLoop = () => {
         //    console.log('run game');
-
-
         //};
         //useInterval(messageLoop, 100);
 
         return {  };
     }
-
 
     isHitBrick (ball: Ball, brick: Brick): boolean {
         if (
@@ -119,12 +118,13 @@ export class GameLogic {
                 bricks.splice(i, 1);
                 collision.value = brick.value;
                 collision.hit = true;
+                this.sound.playSound(Sound.brick);
             }
         })
         return collision;
     }
 
-    checkBallCollision (ball: Ball, paddle: Paddle): boolean {
+    checkBallCollision(ball: Ball, paddle: Paddle): boolean {
         // Check paddle hit
         if (
             ball.pos.x - ball.diameter >= paddle.pos.x &&
@@ -132,16 +132,19 @@ export class GameLogic {
             ball.pos.y + ball.diameter === paddle.pos.y
         ) {
             ball.changeYDirection();
+            this.sound.playSound(Sound.paddle);
             return true;
         }
         // check wall hit
         if (ball.pos.x > GAME_WIDTH - ball.diameter || ball.pos.x < 0) {
             ball.changeXDirection();
+            this.sound.playSound(Sound.wall);
             return true;
         }
         // check top
         if (ball.pos.y < 0 + ball.diameter) {
             ball.changeYDirection();
+            this.sound.playSound(Sound.wall);
             return true;
         }
         return false;
