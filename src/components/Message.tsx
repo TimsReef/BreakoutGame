@@ -60,7 +60,7 @@ export class Message {
             ctx.fillStyle = 'white';
             ctx.font = "20px Arial";
             const m: TextMetrics = ctx.measureText(this.messageText);
-            ctx.fillText(this.messageText, this.position.x + this.width / 2 - m.width / 2, this.position.y + this.height / 2, this.width);
+            ctx.fillText(this.messageText, this.position.x + this.boardWidth / 2 - m.width / 2, this.position.y + this.boardHeight / 2, this.boardWidth);
         }
     }
 }

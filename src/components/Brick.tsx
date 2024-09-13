@@ -3,6 +3,8 @@ import { Vector, DrawProps } from "../constants/types";
 export class Brick {
 
     constructor(
+        private brickRow: number,
+        private brickCol: number,
         private brickWidth: number,
         private brickHeight: number,
         private position: Vector,
@@ -10,6 +12,8 @@ export class Brick {
         private brickEnergy: number,
         private brickValue: number
     ) {
+        this.brickRow = brickRow,
+        this.brickCol = brickCol,
         this.brickWidth = brickWidth;
         this.brickHeight = brickHeight;
         this.position = position;
@@ -19,6 +23,12 @@ export class Brick {
     }
 
     // Getters
+    get row(): number {
+        return this.brickRow;
+    }
+    get col(): number {
+        return this.brickCol;
+    }
     get width(): number {
         return this.brickWidth;
     }

@@ -1,5 +1,5 @@
 import { Vector, DrawProps } from "../constants/types";
-import { BALL_SIZE, BALLS_GAME } from "../constants/setup";
+import { BALLS_GAME } from "../constants/setup";
 
 export class ScoreBoard {
     private scoreTotal: number = 0;
@@ -7,6 +7,7 @@ export class ScoreBoard {
     private levelValue: number = 1;
     private BORDER: number = 2;
     private BALL_GAP: number = 3;
+    private ballSize: number = 5;
 
     constructor(
         private boardWidth: number,
@@ -54,7 +55,7 @@ export class ScoreBoard {
     set level(level: number) {
         this.levelValue = level;
     }
-    
+
     set width(width: number) {
         this.boardWidth = width;
     }
@@ -69,18 +70,18 @@ export class ScoreBoard {
 
     draw({ ctx }: DrawProps) {
         ctx.strokeStyle = "#004161";
-        ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.strokeRect(this.pos.x, this.pos.y, this.width, this.height);
 
         ctx.font = "12px Arial";
         ctx.fillStyle = 'red';
         ctx.fillText(`Score: ${this.score}`, this.position.x + this.BORDER, this.position.y + this.height / 2, 200);
 
-        const x = (this.width / 2) - ((BALL_SIZE + this.BALL_GAP) * this.ballCount) / 2 - (this.BORDER * 2);
+        const x = (this.width / 2) - ((this.ballSize + this.BALL_GAP) * this.ballCount) / 2 - (this.BORDER * 2);
         for (let i = 0; i < this.ballCount; i++) {
             ctx.beginPath();
             ctx.fillStyle = "white";
             ctx.strokeStyle = "white";
-            ctx.arc(x + (i * BALL_SIZE * 2), this.position.y + (this.height / 2 - BALL_SIZE / 2), 3, 0, 2 * Math.PI);
+            ctx.arc(x + (i * this.ballSize * 2), this.position.y + (this.height / 2 - this.ballSize / 2), 3, 0, 2 * Math.PI);
             ctx.fill();
             ctx.stroke();
         }

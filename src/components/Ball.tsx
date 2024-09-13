@@ -1,5 +1,10 @@
 import { Vector, DrawProps } from "../constants/types";
 
+export enum Direction {
+    none,
+    up,
+    down
+}
 export class Ball {
     private ballSpeed: Vector;
 
@@ -51,7 +56,12 @@ export class Ball {
         ctx.stroke();
     }
 
-    changeYDirection(): void {
+    changeYDirection(d: Direction): void {
+        if (d === Direction.up)
+            this.pos.y -= this.ballDiameter;
+        if (d == Direction.down)
+            this.pos.y += this.ballDiameter;
+
         this.ballSpeed.y = -this.ballSpeed.y;
     }
 

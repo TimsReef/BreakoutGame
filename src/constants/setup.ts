@@ -1,25 +1,5 @@
-const canvas: HTMLCanvasElement | null = document.querySelector('#playfield');
-
-export const GAME_WIDTH = 800;
-export const GAME_HEIGHT = 600;
-export const STAGE_PADDING = 10;
-export const STAGE_ROWS = 6;
-export const STAGE_COLS = 12;
-export const BRICK_PADDING = 5;
-export const BRICK_WIDTH = canvas
-    ? Math.floor((canvas.width - STAGE_PADDING * 2) / STAGE_COLS) - BRICK_PADDING : 60;
-export const BRICK_HEIGHT = canvas
-    ? Math.floor((canvas.height - STAGE_PADDING * 2) / STAGE_ROWS) - BRICK_PADDING : 10;
-
-export const PADDLE_SPEED = 5;
-export const PADDLE_WIDTH = 50;
-export const PADDLE_HEIGHT = 7;
-export const PADDLE_STARTX = GAME_WIDTH / 2 - PADDLE_WIDTH / 2;
-export const PADDLE_STARTY = 350;
+export const PADDLE_SPEED = 3;
 export const BALL_SPEED = 3;
-export const BALL_SIZE = 5;
-export const BALL_STARTX = 400;
-export const BALL_STARTY = 120;
 export const BALLS_GAME = 5;
 
 export const BrickColor: { [key: number]: string } = {

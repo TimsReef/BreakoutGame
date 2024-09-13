@@ -6,3 +6,7 @@ export type Vector = {
 export interface DrawProps {
     ctx: CanvasRenderingContext2D;
 };
+
+export interface DrawArgs {
+    ctx: CanvasRenderingContext2D;
+};

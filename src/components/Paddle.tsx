@@ -50,11 +50,9 @@ export class Paddle {
     }
 
     movePaddle(): void {
-
-
         if (this.moveLeft) this.pos.x -= this.speed;
         if (this.moveRight) this.pos.x += this.speed;
-        //console.log(this.pos);
+        console.log("paddle position" + this.pos.x);
     }
 
     handleKeyUp = (e: KeyboardEvent): void => {
