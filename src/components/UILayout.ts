@@ -35,7 +35,7 @@ export class UILayout {
     private gameScoreBoard: ScoreBoard;
     private gameMessage: Message;
     private gamePaddle: Paddle;
-    private gameBricks: Brick[];
+    private gameBricks: Brick[] | undefined;
     private gameBall: Ball;
 
     constructor(width: number, height: number) {
@@ -48,6 +48,7 @@ export class UILayout {
         this.BRICK_PADDING = 5;
         this.BRICK_WIDTH = Math.floor((this.GAME_WIDTH - this.STAGE_PADDING * 2) / this.STAGE_COLS) - this.BRICK_PADDING;
         this.BRICK_HEIGHT = Math.floor((this.GAME_HEIGHT * .25 - this.STAGE_PADDING * 2) / this.STAGE_ROWS) - this.BRICK_PADDING;
+        this.gameBricks = undefined;
 
         this.SCORE_BOARD_HEIGHT = 30;
         this.SCORE_BOARD_XPOS = 0;
@@ -76,7 +77,7 @@ export class UILayout {
     get stageCols(): number {
         return this.STAGE_COLS;
     }
-    get bricks(): Brick[] {
+    get bricks(): Brick[] | undefined {
         return this.gameBricks;
     }
 

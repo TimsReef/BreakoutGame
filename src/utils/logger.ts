@@ -11,7 +11,8 @@ export function log(type: logType, text: string): void {
     let value: string | null = localStorage.getItem("logType");
 
     if (value != null) {
-        logger = logType[value as keyof logType];
+//        logger = value as unknown as logType;
+        logger = logType[value as keyof typeof logType];
     }
         
     if (logger & type) {
