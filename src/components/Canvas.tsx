@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect } from 'react'
 import { UILayout } from './UILayout';
 import * as S from './Canvas.styles';
+import { log, logType } from '../utils/logger';
 
 type CanvasProps = React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> & {
     draw: (context: CanvasRenderingContext2D) => void;
@@ -36,9 +37,9 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
             }
 
             const render = () => {
-                //console.log("canvas before draw");
+                log(logType.drawing, "canvas before draw");
                 draw(context);
-                //console.log("canvas after draw");
+                log(logType.drawing, "canvas after draw");
                 animationId = requestAnimationFrame(render);
             };
             render();

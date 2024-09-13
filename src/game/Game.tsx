@@ -3,6 +3,7 @@ import { GameLogic } from './GameLogic';
 import { Canvas } from '../components/Canvas';
 import { GameWrapper } from './Games.styles';
 import { UILayout } from '../components/UILayout';
+import { log, logType } from '../utils/logger';
 
 interface GameProps {
 
@@ -14,9 +15,9 @@ export const Game: React.FC<GameProps> = ({ }) => {
     const gameLogic: GameLogic = new GameLogic(layoutRef);
 
     const draw = (ctx: CanvasRenderingContext2D) => {
-        //console.log("game before draw");
+        log(logType.drawing, "game before draw");
         gameLogic.drawGame({ ctx });
-        //console.log("game after draw");
+        log(logType.drawing, "game after draw");
     }
 
     return (

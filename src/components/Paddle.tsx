@@ -1,4 +1,5 @@
 import { Vector, DrawProps } from "../constants/types";
+import { log, logType } from "../utils/logger";
 
 export class Paddle {
     private moveLeft: boolean;
@@ -52,7 +53,7 @@ export class Paddle {
     movePaddle(): void {
         if (this.moveLeft) this.pos.x -= this.speed;
         if (this.moveRight) this.pos.x += this.speed;
-        console.log("paddle position" + this.pos.x);
+        log(logType.hittest, "paddle position" + this.pos.x);
     }
 
     handleKeyUp = (e: KeyboardEvent): void => {

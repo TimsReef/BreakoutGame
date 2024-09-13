@@ -7,6 +7,7 @@ import { Message } from './Message';
 import { Brick } from './Brick';
 import { Paddle } from './Paddle';
 import { Ball } from './Ball';
+import { log, logType } from '../utils/logger';
 
 export class UILayout {
     private GAME_WIDTH: number;
@@ -38,15 +39,13 @@ export class UILayout {
     private gameBall: Ball;
 
     constructor(width: number, height: number) {
-        console.log("build ui width=" + width + " height=" + height);
+        log(logType.drawing, "build ui width=" + width + " height=" + height);
         this.GAME_WIDTH = width;
         this.GAME_HEIGHT = height;
         this.STAGE_PADDING = 10;
         this.STAGE_ROWS = 6;
         this.STAGE_COLS = 12;
         this.BRICK_PADDING = 5;
-        //this.BRICK_WIDTH = canvas ? Math.floor((canvas.width - this.STAGE_PADDING * 2) / this.STAGE_COLS) - this.BRICK_PADDING : 60;
-        //this.BRICK_HEIGHT = canvas ? Math.floor((canvas.height * .25 - this.STAGE_PADDING * 2) / this.STAGE_ROWS) - this.BRICK_PADDING : 10;
         this.BRICK_WIDTH = Math.floor((this.GAME_WIDTH - this.STAGE_PADDING * 2) / this.STAGE_COLS) - this.BRICK_PADDING;
         this.BRICK_HEIGHT = Math.floor((this.GAME_HEIGHT * .25 - this.STAGE_PADDING * 2) / this.STAGE_ROWS) - this.BRICK_PADDING;
 
@@ -137,7 +136,7 @@ export class UILayout {
             const row = Math.floor((i) / this.stageCols);
             const col = i % this.stageCols;
             const v: Vector = this.calculateBrickPosition(row, col);
-            // console.log(row + " " + col + " " + x + " " + y);
+            log(logType.game, row + " " + col + " " + v.x + " " + v.y);
             if (element === 0) return ack;
 
             return [

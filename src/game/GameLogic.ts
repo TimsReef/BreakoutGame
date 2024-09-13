@@ -4,6 +4,7 @@ import { Ball, Direction } from '../components/Ball';
 import { Brick } from '../components/Brick';
 import { DrawProps, DrawArgs } from '../constants/types';
 import { Sound, Sounds } from '../components/Sounds';
+import { log, logType } from '../utils/logger';
 
 enum GameState {
     stopped = 0,
@@ -41,7 +42,7 @@ export class GameLogic {
     }
 
     startGame() {
-        console.log('start game');
+        log(logType.game, 'start game');
         this.state = GameState.start;
         this.level = 1;
 
@@ -54,9 +55,8 @@ export class GameLogic {
         this.layout.message.visible = true;
         this.layout.createBricks(this.level);
 
-
         //const messageLoop = () => {
-        //    console.log('run game');
+        //    log(logType.game, 'run game');
         //};
         //useInterval(messageLoop, 100);
 
@@ -91,28 +91,28 @@ export class GameLogic {
 
     checkBallCollision(layout: UILayout, ball: Ball): boolean {
         // Check paddle hit
-        // console.log("ball x=" + (ball.pos.x - ball.diameter) + ", y=" + (ball.pos.y + ball.diameter) + " paddle x=" + paddle.pos.x + " paddle w=" + (paddle.pos.x + layout.paddleWidth) + ", y=" + layout.paddleStartY);
+        log(logType.hittest, "ball x=" + (ball.pos.x - ball.diameter) + ", y=" + (ball.pos.y + ball.diameter) + " paddle x=" + layout.paddle.pos.x + " paddle w=" + (layout.paddle.pos.x + layout.paddle.width) + ", y=" + layout.paddle.pos.y);
         if (
             ball.pos.x - ball.diameter >= layout.paddle.pos.x &&
             ball.pos.x + ball.diameter <= layout.paddle.pos.x + layout.paddle.width &&
             (ball.pos.y + ball.diameter >= layout.paddle.pos.y &&
                 ball.pos.y + ball.diameter <= layout.paddle.pos.y + layout.paddle.height)
         ) {
-            console.log("paddle hit");
+            log(logType.hittest, "paddle hit");
             ball.changeYDirection(Direction.up);
             this.sound.playSound(Sound.paddle);
             return true;
         }
         // check wall hit
         if (ball.pos.x > layout.gameWidth - ball.diameter || ball.pos.x < 0) {
-            console.log("wall hit");
+            log(logType.hittest, "wall hit");
             ball.changeXDirection();
             this.sound.playSound(Sound.wall);
             return true;
         }
         // check top
         if (ball.pos.y < ball.diameter) {
-            console.log("top hit");
+            log(logType.hittest, "top hit");
             ball.changeYDirection(Direction.down);
             this.sound.playSound(Sound.wall);
             return true;
@@ -124,7 +124,7 @@ export class GameLogic {
         if (this.state == undefined)
             this.startGame();
 
-        //console.log('run game');
+        log(logType.game, 'run game');
         if (this.layout.paddle != undefined && this.layout.ball != undefined && this.layout.bricks != undefined && this.layout.scoreBoard != undefined && this.layout.message != undefined) {
             if (this.state !== GameState.over && this.state !== GameState.start) {
                 if ((this.layout.paddle.isMovingLeft && this.layout.paddle.pos.x > 0) ||
@@ -183,8 +183,8 @@ export class GameLogic {
         const obj: DrawProps = { ctx: ctx };
 
         this.gameLoop();
-        //console.log("game logic before draw");
+        log(logType.drawing, "game logic before draw");
         this.layout.draw(obj);
-        //console.log("game logic after draw");
+        log(logType.drawing, "game logic after draw");
     }
 }
