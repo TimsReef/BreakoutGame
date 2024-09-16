@@ -1,5 +1,6 @@
 import { Vector, DrawProps } from "../constants/types";
 import { BALLS_GAME } from "../constants/setup";
+import i18n from 'i18next';
 
 export class ScoreBoard {
     private scoreTotal: number = 0;
@@ -74,7 +75,8 @@ export class ScoreBoard {
 
         ctx.font = "12px Arial";
         ctx.fillStyle = 'red';
-        ctx.fillText(`Score: ${this.score}`, this.position.x + this.BORDER, this.position.y + this.height / 2, 200);
+        let text = i18n.t('score', { score: this.score });
+        ctx.fillText(text, this.position.x + this.BORDER, this.position.y + this.height / 2, 200);
 
         const x = (this.width / 2) - ((this.ballSize + this.BALL_GAP) * this.ballCount) / 2 - (this.BORDER * 2);
         for (let i = 0; i < this.ballCount; i++) {
@@ -86,7 +88,7 @@ export class ScoreBoard {
             ctx.stroke();
         }
         ctx.fillStyle = 'lime';
-        const levelText = `Level: ${this.level}`;
+        const levelText = i18n.t('level', { level: this.level });
         const m: TextMetrics = ctx.measureText(levelText);
         ctx.fillText(levelText, this.position.x + this.width - m.width - this.BORDER, this.position.y + this.height / 2, 200);
     }

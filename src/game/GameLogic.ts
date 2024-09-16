@@ -5,6 +5,7 @@ import { Brick } from '../components/Brick';
 import { DrawProps, DrawArgs } from '../constants/types';
 import { Sound, Sounds } from '../components/Sounds';
 import { log, logType } from '../utils/logger';
+import i18n from 'i18next';
 
 enum GameState {
     stopped = 0,
@@ -51,7 +52,8 @@ export class GameLogic {
         this.layout.scoreBoard.balls = this.balls;
         this.score = 0;
         this.layout.scoreBoard.score = this.score;
-        this.layout.message.message = "Press Space to Start the Game";
+        this.layout.message.message = i18n.t('startgame');
+        //"Press Space to Start the Game";
         this.layout.message.visible = true;
         this.layout.createBricks(this.level);
 
@@ -143,14 +145,14 @@ export class GameLogic {
                             this.layout.ball.pos = { x: this.layout.ball.pos.x, y: this.layout.ball.pos.y };
                             this.layout.ball.speed = { x: BALL_SPEED, y: BALL_SPEED };
                             if (this.level < MAX_LEVELS) {
-                                this.layout.message.message = `Level Completed Press Space to Resume`;
+                                this.layout.message.message = i18n.t('levelcomplete');
                                 this.layout.message.visible = true;
                                 this.state = GameState.stopped;
                                 this.level++;
                                 this.layout.scoreBoard.level = this.level;
                                 this.layout.createBricks(this.level);
                             } else {
-                                this.layout.message.message = `Winner!`;
+                                this.layout.message.message = i18n.t('winner');
                                 this.layout.message.visible = true;
                                 this.state = GameState.over;
                             }
@@ -163,11 +165,11 @@ export class GameLogic {
                         this.balls--;
                         this.layout.scoreBoard.balls = this.balls;
                         if (this.balls == 0) {
-                            this.layout.message.message = `Game Over`;
+                            this.layout.message.message = i18n.t('gameover');
                             this.state = GameState.over;
 
                         } else {
-                            this.layout.message.message = `Ball ${this.balls}`;
+                            this.layout.message.message = i18n.t('ball', { balls: this.balls });
                         }
                         this.layout.message.visible = true;
                     }
