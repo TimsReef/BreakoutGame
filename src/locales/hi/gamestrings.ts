@@ -1,5 +1,6 @@
 ﻿export const hiGameStrings = {
     startgame: "खेल शुरू करने के लिए स्पेस दबाएं",
+    startgamemobile: "गेम शुरू करने के लिए स्क्रीन पर टैप करें",
     winner: "विजेता!",
     gameover: "खेल ख़त्म",
     score: "स्‍कोर करना: {{score}}",

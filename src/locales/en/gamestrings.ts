@@ -1,5 +1,6 @@
 export const enGameStrings = {
     startgame: "Press Space to Start the Game",
+    startgamemobile: "Tap the Screen to Start the Game",
     winner: "Winner!",
     gameover: "Game Over",
     score: "Score: {{score}}",

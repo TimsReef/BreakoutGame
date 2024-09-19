@@ -1,13 +1,13 @@
-import { Level, BrickColor, BrickEnergy, BrickValue } from '../constants/setup';
-import { BALL_SPEED, PADDLE_SPEED } from '../constants/setup';
-import { Vector } from '../constants/types';
-import { DrawProps, DrawArgs } from '../constants/types';
-import { ScoreBoard } from './ScoreBoard';
-import { Message } from './Message';
-import { Brick } from './Brick';
-import { Paddle } from './Paddle';
-import { Ball } from './Ball';
+import { BALL_SPEED, BrickColor, BrickEnergy, BrickValue, Level, PADDLE_SPEED } from '../constants/setup';
+import { DrawArgs, DrawProps, Vector } from '../constants/types';
 import { log, logType } from '../utils/logger';
+import { Ball } from './Ball';
+import { Brick } from './Brick';
+import { Button, ButtonType } from './Button';
+import { Message } from './Message';
+import { Paddle } from './Paddle';
+import { ScoreBoard } from './ScoreBoard';
+import { isMobile } from 'react-device-detect';
 
 export class UILayout {
     private GAME_WIDTH: number;
@@ -38,6 +38,10 @@ export class UILayout {
     private gameBricks: Brick[] | undefined;
     private gameBall: Ball;
 
+    private BUTTON_SIZE: number;
+    private gameButtonLeft: Button;
+    private gameButtonRight: Button;
+
     constructor(width: number, height: number) {
         log(logType.drawing, "build ui width=" + width + " height=" + height);
         this.GAME_WIDTH = width;
@@ -52,7 +56,7 @@ export class UILayout {
 
         this.SCORE_BOARD_HEIGHT = 30;
         this.SCORE_BOARD_XPOS = 0;
-        this.gameScoreBoard = new ScoreBoard(this.GAME_WIDTH, this.SCORE_BOARD_HEIGHT, { x: this.SCORE_BOARD_XPOS, y: this.GAME_HEIGHT - this.SCORE_BOARD_HEIGHT });
+        this.gameScoreBoard = new ScoreBoard(this.GAME_WIDTH, this.SCORE_BOARD_HEIGHT, { x: this.SCORE_BOARD_XPOS, y: 0 });
 
         this.MESSAGE_HEIGHT = 30;
         this.MESSAGE_XPOS = 0;
@@ -65,8 +69,41 @@ export class UILayout {
 
         this.BALL_SIZE = 5;
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .30 - this.STAGE_PADDING * 2) }, BALL_SPEED);
+        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
+
+        if (isMobile) {
+            this.BUTTON_SIZE = 50;
+            this.gameButtonLeft = new Button(this.BUTTON_SIZE, this.BUTTON_SIZE, { x: this.STAGE_PADDING, y: this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING }, ButtonType.Left);
+            this.gameButtonLeft.onButtonPress(this.handleButtonPress);
+            this.gameButtonLeft.onButtonRelease(this.handleButtonRelease);
+            this.gameButtonRight = new Button(this.BUTTON_SIZE, this.BUTTON_SIZE, { x: this.GAME_WIDTH - this.BUTTON_SIZE - this.STAGE_PADDING, y: this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING }, ButtonType.Right);
+            this.gameButtonRight.onButtonPress(this.handleButtonPress);
+            this.gameButtonRight.onButtonRelease(this.handleButtonRelease);
+        }
     }
+
+    handleButtonPress = (e: ButtonPress): void => {
+        if (e.type === ButtonType.Left) {
+            this.gamePaddle.moveToLeft = true;
+            log(logType.game, "left button down");
+        }
+            
+        if (e.type === ButtonType.Right) {
+            this.gamePaddle.moveToRight = true;
+            log(logType.game, "right button down");
+        }
+    };
+
+    handleButtonRelease = (e: ButtonPress): void => {
+        log(logType.game, "Button Release");
+        if (e.type === ButtonType.Left) {
+            this.gamePaddle.moveToLeft = false;
+        }
+
+        if (e.type === ButtonType.Right) {
+            this.gamePaddle.moveToRight = false;
+        }
+    };
 
     get gameWidth(): number {
         return this.GAME_WIDTH;
@@ -106,28 +143,34 @@ export class UILayout {
 
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
         this.gameBall.pos.x = Math.floor(this.BALL_STARTX = this.GAME_WIDTH / 2);
-        this.gameBall.pos.y = Math.floor(this.GAME_HEIGHT * .3 - this.STAGE_PADDING * 2);
+        this.gameBall.pos.y = Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2);
 
         this.gamePaddle.width = Math.floor(this.GAME_WIDTH * .10);
         this.gamePaddle.pos.x = Math.floor(this.PADDLE_STARTX = Math.floor(this.gameWidth / 2 - this.PADDLE_WIDTH / 2));
         this.gamePaddle.pos.y = Math.floor((this.GAME_HEIGHT - this.gameScoreBoard.height) - this.GAME_HEIGHT * .10);
 
         this.gameScoreBoard.width = this.GAME_WIDTH;
-        this.gameScoreBoard.pos.y = this.GAME_HEIGHT - this.SCORE_BOARD_HEIGHT;
+        this.gameScoreBoard.pos.y = 0;// this.GAME_HEIGHT - this.SCORE_BOARD_HEIGHT;
 
         this.gameMessage.width = this.GAME_WIDTH;
         this.gameMessage.pos.y = (this.GAME_HEIGHT / 2) - (this.MESSAGE_HEIGHT / 2);
+        if (isMobile) {
+            this.gameButtonLeft.pos.x = this.STAGE_PADDING;
+            this.gameButtonLeft.pos.y = this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING;
+            this.gameButtonRight.pos.x = this.GAME_WIDTH - this.BUTTON_SIZE - this.STAGE_PADDING;
+            this.gameButtonRight.pos.y = this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING;
+        }
 
         this.resizeBricks();
     }
 
     resetBallPosition() {
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .30 - this.STAGE_PADDING * 2) }, BALL_SPEED);
+        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
     }
     
     calculateBrickPosition(row: number, col: number): Vector {
-        const x = this.STAGE_PADDING + col * (this.BRICK_WIDTH + this.BRICK_PADDING);
-        const y = this.STAGE_PADDING + row * (this.BRICK_HEIGHT + this.BRICK_PADDING);
+        const x = this.STAGE_PADDING + this.STAGE_PADDING/2 + col * (this.BRICK_WIDTH + this.BRICK_PADDING);
+        const y = this.STAGE_PADDING * 2 + this.SCORE_BOARD_HEIGHT + row * (this.BRICK_HEIGHT + this.BRICK_PADDING) + this.gameScoreBoard.pos.y;
         return { x, y };
     }
 
@@ -182,5 +225,9 @@ export class UILayout {
             this.gamePaddle.draw(obj);
         if (this.gameMessage != undefined)
             this.gameMessage.draw(obj);
+        if (this.gameButtonLeft != undefined)
+            this.gameButtonLeft.draw(obj);
+        if (this.gameButtonRight != undefined)
+            this.gameButtonRight.draw(obj);
     }
 }

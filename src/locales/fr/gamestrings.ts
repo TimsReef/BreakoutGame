@@ -1,5 +1,6 @@
 export const frGameStrings = {
     startgame: "Appuyez sur l'espace pour démarrer le jeu",
+    startgamemobile: "Appuyez sur l’écran pour démarrer le jeu",
     winner: "Gagnant!",
     gameover: "Fin du jeu",
     score: "Score: {{score}}",

@@ -83,6 +83,13 @@ export class Paddle {
         this.paddleSpeed = speed;
     }
 
+    set moveToRight(state: boolean) {
+        this.moveRight = state;
+    }
+    set moveToLeft(state: boolean) {
+        this.moveLeft = state;
+    }
+
     draw({ ctx }: DrawProps) {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x, this.position.y, this.paddleWidth, this.paddleHeight);

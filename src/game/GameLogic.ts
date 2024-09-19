@@ -6,6 +6,7 @@ import { DrawProps, DrawArgs } from '../constants/types';
 import { Sound, Sounds } from '../components/Sounds';
 import { log, logType } from '../utils/logger';
 import i18n from 'i18next';
+import { isMobile } from 'react-device-detect';
 
 enum GameState {
     stopped = 0,
@@ -53,7 +54,9 @@ export class GameLogic {
         this.score = 0;
         this.layout.scoreBoard.score = this.score;
         this.layout.message.message = i18n.t('startgame');
-        //"Press Space to Start the Game";
+        if (isMobile) {
+            this.layout.message.message = i18n.t('startgamemobile');
+        }
         this.layout.message.visible = true;
         this.layout.createBricks(this.level);
 
