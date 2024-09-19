@@ -71,7 +71,7 @@ export class UILayout {
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
         this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
 
-        if (isMobile && this.BUTTON_SIZE != undefined && this.gameButtonLeft != undefined && this.gameButtonRight != undefined) {
+        if (isMobile) {
             this.BUTTON_SIZE = 50;
             this.gameButtonLeft = new Button(this.BUTTON_SIZE, this.BUTTON_SIZE, { x: this.STAGE_PADDING, y: this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING }, ButtonType.Left);
             this.gameButtonLeft.onButtonPress(this.handleButtonPress);

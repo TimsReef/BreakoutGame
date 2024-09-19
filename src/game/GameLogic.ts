@@ -24,23 +24,35 @@ export class GameLogic {
     private layout: UILayout;
 
     handleKeyDown = (e: KeyboardEvent): void => {
-        if (this.state !== GameState.running) {
-            if (e.code === "Space" || e.key === "Space") {
-                if (this.state === GameState.over) {
-                    this.state = GameState.start;
-                    if (this.layout != undefined)
-                        this.startGame();
-                } else {
-                    this.layout.resetBallPosition();
-                    this.state = GameState.running;
-                }
-            }
+        if (e.code === "Space" || e.key === "Space") {
+            console.log("key");
+            this.handleKeyOrTouch();    
         }
     };
+
+    handleTouchStart = (): void => {
+        this. handleKeyOrTouch();
+    };
+
+    private handleKeyOrTouch(): void {
+        if (this.state !== GameState.running) {
+            if (this.state === GameState.over) {
+                this.state = GameState.start;
+                if (this.layout != undefined)
+                    this.startGame();
+            } else {
+                this.layout.resetBallPosition();
+                this.state = GameState.running;
+            }
+        }
+    }
 
     public constructor(lo: UILayout) {
         this.layout = lo;
         document.addEventListener('keydown', this.handleKeyDown);
+        if (isMobile) {
+            document.addEventListener('touchstart', this.handleTouchStart);
+        }
     }
 
     startGame() {
