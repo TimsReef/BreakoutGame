@@ -1,4 +1,5 @@
 import { Vector, DrawProps } from "../constants/types";
+import { Handler } from "../@types/Handler";
 
 export enum ButtonType {
     Left,
@@ -44,11 +45,11 @@ export class Button {
 
     // Setters
     set width(width: number) {
-        this.brickWidth = width;
+        this.buttonWidth = width;
     }
 
     set height(height: number) {
-        this.brickHeight = height;
+        this.buttonHeight = height;
     }
 
     set pos(pos: Vector) {
@@ -56,7 +57,6 @@ export class Button {
     }
 
     draw({ ctx }: DrawProps) {
-        ctx.fillStyle = this.color;
         const gradient = ctx.createLinearGradient(this.position.x + this.width, this.position.y + this.height, this.position.x, this.position.y - 5);
         gradient.addColorStop(0.3, "blue");
         gradient.addColorStop(1.0, "white");
@@ -85,16 +85,17 @@ export class Button {
                 touches[i].pageY >= this.position.y && touches[i].pageY <= this.position.y + this.height) {
 
                 for (let c: number = 0; c < this.buttonPress.length; c++) {
-                    let h: Handler = this.buttonPress[c];
+                    let h: Handler<ButtonRelease> = this.buttonPress[c];
                     h({ type: this.buttonType });
                 }
             }
         }
     };
 
-    handleEnd = (evt: TouchEvent): void => {
+    handleEnd = (): void => {
+
         for (let c: number = 0; c < this.buttonRelease.length; c++) {
-            let h: Handler = this.buttonRelease[c];
+            let h: Handler<ButtonRelease> = this.buttonRelease[c];
             h({ type: this.buttonType });
         }
     };

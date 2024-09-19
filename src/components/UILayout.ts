@@ -3,7 +3,7 @@ import { DrawArgs, DrawProps, Vector } from '../constants/types';
 import { log, logType } from '../utils/logger';
 import { Ball } from './Ball';
 import { Brick } from './Brick';
-import { Button, ButtonType } from './Button';
+import { Button, ButtonType, ButtonPress } from './Button';
 import { Message } from './Message';
 import { Paddle } from './Paddle';
 import { ScoreBoard } from './ScoreBoard';
@@ -38,9 +38,9 @@ export class UILayout {
     private gameBricks: Brick[] | undefined;
     private gameBall: Ball;
 
-    private BUTTON_SIZE: number;
-    private gameButtonLeft: Button;
-    private gameButtonRight: Button;
+    private BUTTON_SIZE: number | undefined;
+    private gameButtonLeft: Button | undefined;
+    private gameButtonRight: Button | undefined;
 
     constructor(width: number, height: number) {
         log(logType.drawing, "build ui width=" + width + " height=" + height);
@@ -71,7 +71,7 @@ export class UILayout {
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
         this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
 
-        if (isMobile) {
+        if (isMobile && this.BUTTON_SIZE != undefined && this.gameButtonLeft != undefined && this.gameButtonRight != undefined) {
             this.BUTTON_SIZE = 50;
             this.gameButtonLeft = new Button(this.BUTTON_SIZE, this.BUTTON_SIZE, { x: this.STAGE_PADDING, y: this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING }, ButtonType.Left);
             this.gameButtonLeft.onButtonPress(this.handleButtonPress);
@@ -154,7 +154,7 @@ export class UILayout {
 
         this.gameMessage.width = this.GAME_WIDTH;
         this.gameMessage.pos.y = (this.GAME_HEIGHT / 2) - (this.MESSAGE_HEIGHT / 2);
-        if (isMobile) {
+        if (isMobile && this.BUTTON_SIZE != undefined && this.gameButtonLeft != undefined && this.gameButtonRight != undefined) {
             this.gameButtonLeft.pos.x = this.STAGE_PADDING;
             this.gameButtonLeft.pos.y = this.GAME_HEIGHT - this.BUTTON_SIZE - this.STAGE_PADDING;
             this.gameButtonRight.pos.x = this.GAME_WIDTH - this.BUTTON_SIZE - this.STAGE_PADDING;
