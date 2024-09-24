@@ -1,23 +1,23 @@
 import { Vector, DrawProps } from "../constants/types";
-
+import { BallSpeed } from '../constants/setup';
 export enum Direction {
     none,
     up,
     down
 }
+
 export class Ball {
-    private ballSpeed: Vector;
 
     constructor(
         private ballDiameter: number,
         private position: Vector,
-        ballSpeed: number
+        private ballSpeed: Vector
     ) {
         this.ballDiameter = ballDiameter;
         this.position = position;
         this.ballSpeed = {
-            x: ballSpeed,
-            y: ballSpeed
+            x: ballSpeed.x,
+            y: ballSpeed.y
         }
     }
 
@@ -56,13 +56,17 @@ export class Ball {
         ctx.stroke();
     }
 
-    changeYDirection(d: Direction): void {
+    changeYDirection(d: Direction, s?: BallSpeed): void {
         if (d === Direction.up)
             this.pos.y -= this.ballDiameter;
         if (d == Direction.down)
             this.pos.y += this.ballDiameter;
-
-        this.ballSpeed.y = -this.ballSpeed.y;
+        if (s) {
+            let sign = Math.sign(this.ballSpeed.y);
+            this.ballSpeed.y = s*-sign;
+        }
+        else
+            this.ballSpeed.y = -this.ballSpeed.y;
     }
 
     changeXDirection(): void {

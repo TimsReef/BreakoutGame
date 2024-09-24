@@ -1,4 +1,4 @@
-import { MAX_LEVELS, BALL_SPEED, BALLS_GAME, BrickCollision } from '../constants/setup';
+import { MAX_LEVELS, BALLS_GAME, BallSpeed, BrickCollision } from '../constants/setup';
 import { UILayout } from '../components/UILayout';
 import { Ball, Direction } from '../components/Ball';
 import { Brick } from '../components/Brick';
@@ -31,7 +31,7 @@ export class GameLogic {
     };
 
     handleTouchStart = (): void => {
-        this. handleKeyOrTouch();
+        this.handleKeyOrTouch();
     };
 
     private handleKeyOrTouch(): void {
@@ -96,7 +96,7 @@ export class GameLogic {
         const collision: BrickCollision = {hit: false, value: 0};
         bricks.forEach((brick, i) => {
             if (this.isHitBrick(ball, brick)) {
-                ball.changeYDirection(Direction.none);
+                ball.changeYDirection(Direction.none, brick.energy);
                 bricks.splice(i, 1);
                 collision.value = brick.value;
                 collision.hit = true;
@@ -106,31 +106,33 @@ export class GameLogic {
         return collision;
     }
 
-    checkBallCollision(layout: UILayout, ball: Ball): boolean {
+    checkBallCollision(layout: UILayout): boolean {
         // Check paddle hit
-        log(logType.hittest, "ball x=" + (ball.pos.x - ball.diameter) + ", y=" + (ball.pos.y + ball.diameter) + " paddle x=" + layout.paddle.pos.x + " paddle w=" + (layout.paddle.pos.x + layout.paddle.width) + ", y=" + layout.paddle.pos.y);
+        log(logType.hittest, "ball x=" + (layout.ball.pos.x - layout.ball.diameter) + ", y=" + (layout.ball.pos.y + layout.ball.diameter) + " paddle x=" + layout.paddle.pos.x + " paddle w=" + (layout.paddle.pos.x + layout.paddle.width) + ", y=" + layout.paddle.pos.y);
         if (
-            ball.pos.x - ball.diameter >= layout.paddle.pos.x &&
-            ball.pos.x + ball.diameter <= layout.paddle.pos.x + layout.paddle.width &&
-            (ball.pos.y + ball.diameter >= layout.paddle.pos.y &&
-                ball.pos.y + ball.diameter <= layout.paddle.pos.y + layout.paddle.height)
+            layout.ball.pos.x - layout.ball.diameter >= layout.paddle.pos.x &&
+            layout.ball.pos.x + layout.ball.diameter <= layout.paddle.pos.x + layout.paddle.width &&
+            (layout.ball.pos.y + layout.ball.diameter >= layout.paddle.pos.y &&
+                layout.ball.pos.y + layout.ball.diameter <= layout.paddle.pos.y + layout.paddle.height)
         ) {
             log(logType.hittest, "paddle hit");
-            ball.changeYDirection(Direction.up);
+            let per = Math.floor(Math.abs(layout.paddle.pos.x - layout.ball.pos.x) / layout.paddle.width * 100);
+            let rate = per % 5;
+            layout.ball.changeYDirection(Direction.up, rate);
             this.sound.playSound(Sound.paddle);
             return true;
         }
         // check wall hit
-        if (ball.pos.x > layout.gameWidth - ball.diameter || ball.pos.x < 0) {
+        if (layout.ball.pos.x > layout.gameWidth - layout.ball.diameter || layout.ball.pos.x < 0) {
             log(logType.hittest, "wall hit");
-            ball.changeXDirection();
+            layout.ball.changeXDirection();
             this.sound.playSound(Sound.wall);
             return true;
         }
         // check top
-        if (ball.pos.y < ball.diameter) {
+        if (layout.ball.pos.y < layout.ball.diameter) {
             log(logType.hittest, "top hit");
-            ball.changeYDirection(Direction.down);
+            layout.ball.changeYDirection(Direction.down, undefined);
             this.sound.playSound(Sound.wall);
             return true;
         }
@@ -151,14 +153,14 @@ export class GameLogic {
             }
             if (this.state == GameState.running) {
                 this.layout.ball.moveBall();
-                if (!this.checkBallCollision(this.layout, this.layout.ball)) {
+                if (!this.checkBallCollision(this.layout)) {
                     const collision: BrickCollision = this.checkBricksCollision(this.layout.ball, this.layout.bricks);
                     if (collision.hit) {
                         this.score += collision.value;
                         this.layout.scoreBoard.score = this.score;
                         if (this.layout.bricks.length <= 0) {
                             this.layout.ball.pos = { x: this.layout.ball.pos.x, y: this.layout.ball.pos.y };
-                            this.layout.ball.speed = { x: BALL_SPEED, y: BALL_SPEED };
+                            this.layout.ball.speed = { x: BallSpeed.slow, y: BallSpeed.slow };
                             if (this.level < MAX_LEVELS) {
                                 this.layout.message.message = i18n.t('levelcomplete');
                                 this.layout.message.visible = true;

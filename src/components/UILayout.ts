@@ -1,4 +1,4 @@
-import { BALL_SPEED, BrickColor, BrickEnergy, BrickValue, Level, PADDLE_SPEED } from '../constants/setup';
+import { BrickColor, BrickEnergy, BrickValue, Level, PADDLE_SPEED, BallSpeed } from '../constants/setup';
 import { DrawArgs, DrawProps, Vector } from '../constants/types';
 import { log, logType } from '../utils/logger';
 import { Ball } from './Ball';
@@ -69,7 +69,7 @@ export class UILayout {
 
         this.BALL_SIZE = 5;
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
+        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, { x: BallSpeed.slow, y: BallSpeed.slow });
 
         if (isMobile) {
             this.BUTTON_SIZE = 50;
@@ -165,7 +165,8 @@ export class UILayout {
     }
 
     resetBallPosition() {
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, BALL_SPEED);
+        this.gameBall.pos = { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) };
+        this.gameBall.speed = { x: BallSpeed.slow, y: BallSpeed.slow };
     }
     
     calculateBrickPosition(row: number, col: number): Vector {

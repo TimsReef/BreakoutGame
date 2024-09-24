@@ -82,7 +82,7 @@ export class Button {
         for (let i = 0; i < touches.length; i++) {
 
             if (touches[i].pageX >= this.position.x && touches[i].pageX <= this.position.x + this.width &&
-                touches[i].pageY >= this.position.y && touches[i].pageY <= this.position.y + this.height) {
+                touches[i].pageY >= this.position.y - this.height/2 && touches[i].pageY <= this.position.y + this.height) {
 
                 for (let c: number = 0; c < this.buttonPress.length; c++) {
                     let h: Handler<ButtonRelease> = this.buttonPress[c];

@@ -1,6 +1,10 @@
-export const PADDLE_SPEED = 3;
-export const BALL_SPEED = 3;
+export const PADDLE_SPEED = 4;
 export const BALLS_GAME = 5;
+export enum BallSpeed {
+    slow = 3,
+    medium = 4,
+    fast = 5
+}
 
 export const BrickColor: { [key: number]: string } = {
     1: "red", // Red Brick
@@ -12,12 +16,12 @@ export const BrickColor: { [key: number]: string } = {
 };
 
 export const BrickEnergy: { [key: number]: number } = {
-    1: 1, // Red Brick
-    2: 1, // Orange Brick
-    3: 2, // Yellow Brick
-    4: 2, // Green Brick
-    5: 2, // Blue Brick
-    6: 3 // Purple Brick
+    1: BallSpeed.fast,   // Red Brick
+    2: BallSpeed.fast,   // Orange Brick
+    3: BallSpeed.medium, // Yellow Brick
+    4: BallSpeed.medium, // Green Brick
+    5: BallSpeed.slow,   // Blue Brick
+    6: BallSpeed.slow    // Purple Brick
 };
 
 export const BrickValue: { [key: number]: number } = {
