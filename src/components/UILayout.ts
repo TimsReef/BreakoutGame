@@ -150,7 +150,7 @@ export class UILayout {
         this.gamePaddle.pos.y = Math.floor((this.GAME_HEIGHT - this.gameScoreBoard.height) - this.GAME_HEIGHT * .10);
 
         this.gameScoreBoard.width = this.GAME_WIDTH;
-        this.gameScoreBoard.pos.y = 0;// this.GAME_HEIGHT - this.SCORE_BOARD_HEIGHT;
+        this.gameScoreBoard.pos.y = 0;
 
         this.gameMessage.width = this.GAME_WIDTH;
         this.gameMessage.pos.y = (this.GAME_HEIGHT / 2) - (this.MESSAGE_HEIGHT / 2);
