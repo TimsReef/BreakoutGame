@@ -131,7 +131,7 @@ export class GameLogic {
             return true;
         }
         // check top
-        if (layout.ball.pos.y < layout.ball.diameter) {
+        if (layout.ball.pos.y < layout.scoreBoard.pos.y + layout.scoreBoard.height + layout.ball.diameter) {
             log(logType.hittest, "top hit");
             layout.ball.changeYDirection(Direction.down, undefined);
             this.sound.playSound(Sound.wall);

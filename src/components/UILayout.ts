@@ -69,7 +69,7 @@ export class UILayout {
 
         this.BALL_SIZE = 5;
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 3) }, { x: BallSpeed.slow, y: BallSpeed.slow });
+        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 4) }, { x: BallSpeed.slow, y: BallSpeed.slow });
 
         if (isMobile) {
             this.BUTTON_SIZE = 50;
@@ -143,7 +143,7 @@ export class UILayout {
 
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
         this.gameBall.pos.x = Math.floor(this.BALL_STARTX = this.GAME_WIDTH / 2);
-        this.gameBall.pos.y = Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 3);
+        this.gameBall.pos.y = Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 4);
 
         this.gamePaddle.width = Math.floor(this.GAME_WIDTH * .10);
         this.gamePaddle.pos.x = Math.floor(this.PADDLE_STARTX = Math.floor(this.gameWidth / 2 - this.PADDLE_WIDTH / 2));
@@ -171,7 +171,7 @@ export class UILayout {
     
     calculateBrickPosition(row: number, col: number): Vector {
         const x = this.STAGE_PADDING + this.STAGE_PADDING/2 + col * (this.BRICK_WIDTH + this.BRICK_PADDING);
-        const y = this.STAGE_PADDING * 2 + this.SCORE_BOARD_HEIGHT + row * (this.BRICK_HEIGHT + this.BRICK_PADDING) + this.gameScoreBoard.pos.y;
+        const y = this.STAGE_PADDING * 3 + this.SCORE_BOARD_HEIGHT + row * (this.BRICK_HEIGHT + this.BRICK_PADDING) + this.gameScoreBoard.pos.y;
         return { x, y };
     }
 
