@@ -30,7 +30,8 @@ export class GameLogic {
         }
     };
 
-    handleTouchStart = (): void => {
+    handleTouchStart = (evt: TouchEvent): void => {
+        evt.preventDefault();
         this.handleKeyOrTouch();
     };
 

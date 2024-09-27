@@ -3,23 +3,29 @@ export enum Sound {
     paddle = 900,
     brick = 1000
 }
+
+ function unlockAudioContext(audioCtx: AudioContext): void {
+        if (audioCtx.state !== 'suspended') return;
+        const b = document.body;
+        const events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
+        events.forEach(e => b.addEventListener(e, unlock, false));
+        function unlock() { audioCtx.resume().then(clean); }
+        function clean() { events.forEach(e => b.removeEventListener(e, unlock)); }
+}
+
+const sound: AudioContext = new ((<any>window).AudioContext || (<any>window).webkitAudioContext)({ latencyHint: "interactive" });
+
 export class Sounds {
 
     playSound(pulseHz: Sound): void {
-        let sound: AudioContext = new AudioContext();
-        //const o: OscillatorNode = sound.createOscillator();
-
-        let osc = new OscillatorNode(sound, {
-            type: "sine",
-            frequency: pulseHz
-        });
-
-        //let gn: GainNode = sound.createGain();
-        //osc.connect(gn);
+        unlockAudioContext(sound);
+        const osc: OscillatorNode = sound.createOscillator();
         osc.type = "sine";
-        osc.connect(sound.destination);
+        osc.frequency.value = pulseHz;
+        const gn: GainNode = sound.createGain();
+        gn.gain.setValueAtTime(0, sound.currentTime + 0.04);
+        osc.connect(gn);
+        gn.connect(sound.destination);
         osc.start(0);
-        //gn.gain.exponentialRampToValueAtTime(0.00001, sound.currentTime + 0.08);
-        osc.stop(.04);
     }
 }

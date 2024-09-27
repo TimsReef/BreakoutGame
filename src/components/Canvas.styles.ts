@@ -8,5 +8,8 @@ export const Canvas = styled.canvas`
   padding: 0px 0px;
   margin: 0px;
   border-image-slice: 1;
+  touch-action: none;
+  position: fixed;
+  overflow: hidden;
   border-image-source: linear-gradient(to left, #004080, #002060);
   `;

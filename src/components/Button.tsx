@@ -23,8 +23,10 @@ export class Button {
         this.position = position;
         this.buttonType = buttonType;
 
-        document.addEventListener('touchstart', this.handleStart);
-        document.addEventListener('touchend', this.handleEnd);
+        document.addEventListener('touchstart', this.handleStart, { passive: false });
+        document.addEventListener("touchmove", this.handleMove, { passive: false });
+        document.addEventListener('touchend', this.handleEnd, { passive: false });
+        document.addEventListener('touchcancel', this.handleCancel, { passive: false });
     }
     // Getters
     get width(): number {
@@ -77,17 +79,20 @@ export class Button {
     }
 
     handleStart = (evt: TouchEvent): void => {
-        const touches: TouchList = evt.changedTouches;
+        const touches: TouchList = evt.targetTouches;
 
         for (let i = 0; i < touches.length; i++) {
 
-            if (touches[i].pageX >= this.position.x && touches[i].pageX <= this.position.x + this.width &&
-                touches[i].pageY >= this.position.y - this.height/2 && touches[i].pageY <= this.position.y + this.height) {
+            if ((touches[i].pageX >= this.position.x) && (touches[i].pageX <= this.position.x + this.width) &&
+                (touches[i].pageY >= this.position.y - this.height / 2) && (touches[i].pageY <= this.position.y + this.height)) {
 
                 for (let c: number = 0; c < this.buttonPress.length; c++) {
                     let h: Handler<ButtonRelease> = this.buttonPress[c];
                     h({ type: this.buttonType });
                 }
+            }
+            else {
+                evt.preventDefault();
             }
         }
     };
@@ -99,4 +104,11 @@ export class Button {
             h({ type: this.buttonType });
         }
     };
+
+    handleMove = (evt: TouchEvent): void => {
+        evt.preventDefault();
+    }
+    handleCancel = (evt: TouchEvent): void => {
+        evt.preventDefault();
+    }
 }

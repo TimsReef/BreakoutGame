@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect } from 'react'
 import { UILayout } from './UILayout';
 import * as S from './Canvas.styles';
 import { log, logType } from '../utils/logger';
+import { isMobile } from 'react-device-detect';
 
 type CanvasProps = React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> & {
     draw: (context: CanvasRenderingContext2D) => void;
@@ -13,6 +14,11 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
         useEffect(() => {
            
             let animationId: number;
+            let now: DOMHighResTimeStamp = window.performance.now();
+            let then: DOMHighResTimeStamp = window.performance.now();
+            let elapsed: DOMHighResTimeStamp = 0;
+            let fps: number = 60;
+            let fpsInterval: GLfloat = 1000/fps;
 
             const handleResize = () => {
                 if (canvas) {
@@ -35,12 +41,28 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
             if (!context) {
                 return;
             }
+            let checkFrameRate: boolean = false;
+            if (isMobile) {
+                checkFrameRate = true;
+            }
 
             const render = () => {
-                log(logType.drawing, "canvas before draw");
-                draw(context);
-                log(logType.drawing, "canvas after draw");
+                now = window.performance.now();
+                elapsed = now - then;
+                let doDraw: boolean;
+                if (checkFrameRate) {
+                    doDraw = (elapsed > fpsInterval) ? true : false;
+                }
+                else {
+                    doDraw = true;
+                }
                 animationId = requestAnimationFrame(render);
+                if (doDraw) {
+                    then = now - (elapsed % fpsInterval);
+                    log(logType.drawing, "canvas before draw t=" + elapsed);
+                    draw(context);
+                    log(logType.drawing, "canvas after draw");
+                }
             };
             render();
 
