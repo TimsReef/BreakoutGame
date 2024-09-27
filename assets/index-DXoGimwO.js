@@ -51,7 +51,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   position: fixed;
   overflow: hidden;
   border-image-source: linear-gradient(to left, #004080, #002060);
-  `,E1=Nt.forwardRef(({draw:e,layout:t,...n},r)=>(Nt.useEffect(()=>{let i,o=window.performance.now(),s=window.performance.now(),l=0,c=1e3/72;const h=()=>{m&&(m.width=window.innerWidth,m.height=window.innerHeight),t.resize(window.innerWidth,window.innerHeight)};if(window.addEventListener("resize",h),!r)return;const m=r.current;if(!m)return;const u=m.getContext("2d");if(!u)return;let d=!1;ki&&(d=!0);const p=()=>{o=window.performance.now(),l=o-s;let y;d?y=l>c:y=!0,i=requestAnimationFrame(p),y&&(s=o-l%c,de(se.drawing,"canvas before draw t="+l),e(u),de(se.drawing,"canvas after draw"))};return p(),()=>cancelAnimationFrame(i)},[e,r]),r?lr.jsx(k1,{id:"gameboard",ref:r,...n}):null)),x1=fu.div`
+  `,E1=Nt.forwardRef(({draw:e,layout:t,...n},r)=>(Nt.useEffect(()=>{let i,o=window.performance.now(),s=window.performance.now(),l=0,c=1e3/60;const h=()=>{m&&(m.width=window.innerWidth,m.height=window.innerHeight),t.resize(window.innerWidth,window.innerHeight)};if(window.addEventListener("resize",h),!r)return;const m=r.current;if(!m)return;const u=m.getContext("2d");if(!u)return;let d=!1;ki&&(d=!0);const p=()=>{o=window.performance.now(),l=o-s;let y;d?y=l>c:y=!0,i=requestAnimationFrame(p),y&&(s=o-l%c,de(se.drawing,"canvas before draw t="+l),e(u),de(se.drawing,"canvas after draw"))};return p(),()=>cancelAnimationFrame(i)},[e,r]),r?lr.jsx(k1,{id:"gameboard",ref:r,...n}):null)),x1=fu.div`
   width 100%;
   heigth 100%;
   display: flex;
