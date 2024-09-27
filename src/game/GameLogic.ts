@@ -112,7 +112,7 @@ export class GameLogic {
         log(logType.hittest, "ball x=" + (layout.ball.pos.x - layout.ball.diameter) + ", y=" + (layout.ball.pos.y + layout.ball.diameter) + " paddle x=" + layout.paddle.pos.x + " paddle w=" + (layout.paddle.pos.x + layout.paddle.width) + ", y=" + layout.paddle.pos.y);
         if (
             (layout.ball.pos.x - layout.ball.diameter >= layout.paddle.pos.x &&
-            layout.ball.pos.x + layout.ball.diameter <= layout.paddle.pos.x + layout.paddle.width) &&
+            layout.ball.pos.x <= layout.paddle.pos.x + layout.paddle.width) &&
             (layout.ball.pos.y + Math.floor(layout.ball.diameter/2) >= layout.paddle.pos.y &&
                 layout.ball.pos.y + Math.floor(layout.ball.diameter / 2) <= layout.paddle.pos.y + layout.paddle.height)
         ) {
