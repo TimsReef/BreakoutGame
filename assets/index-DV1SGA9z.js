@@ -47,6 +47,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   padding: 0px 0px;
   margin: 0px;
   border-image-slice: 1;
+  touch-action:none;
   border-image-source: linear-gradient(to left, #004080, #002060);
   `,E1=Nt.forwardRef(({draw:e,layout:t,...n},r)=>(Nt.useEffect(()=>{let i;const o=()=>{s&&(s.width=window.innerWidth,s.height=window.innerHeight),t.resize(window.innerWidth,window.innerHeight)};if(window.addEventListener("resize",o),!r)return;const s=r.current;if(!s)return;const l=s.getContext("2d");if(!l)return;const a=()=>{de(se.drawing,"canvas before draw"),e(l),de(se.drawing,"canvas after draw"),i=requestAnimationFrame(a)};return a(),()=>cancelAnimationFrame(i)},[e,r]),r?lr.jsx(k1,{id:"gameboard",ref:r,...n}):null)),x1=fu.div`
   width 100%;
