@@ -38,6 +38,7 @@ export type BrickCollision = {
     value: number;
 }
 
+export const BRICK_ROWS = 6;
 export const MAX_LEVELS = 4;
 export const Level:number[][] = [
     [

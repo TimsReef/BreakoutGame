@@ -1,4 +1,4 @@
-import { BrickColor, BrickEnergy, BrickValue, Level, PADDLE_SPEED, BallSpeed } from '../constants/setup';
+import { BrickColor, BrickEnergy, BrickValue, Level, PADDLE_SPEED, BallSpeed, BRICK_ROWS } from '../constants/setup';
 import { DrawArgs, DrawProps, Vector } from '../constants/types';
 import { log, logType } from '../utils/logger';
 import { Ball } from './Ball';
@@ -69,7 +69,7 @@ export class UILayout {
 
         this.BALL_SIZE = 5;
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
-        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2) }, { x: BallSpeed.slow, y: BallSpeed.slow });
+        this.gameBall = new Ball(this.BALL_SIZE, { x: this.BALL_STARTX, y: Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 3) }, { x: BallSpeed.slow, y: BallSpeed.slow });
 
         if (isMobile) {
             this.BUTTON_SIZE = 50;
@@ -143,7 +143,7 @@ export class UILayout {
 
         this.BALL_STARTX = Math.floor(this.GAME_WIDTH / 2);
         this.gameBall.pos.x = Math.floor(this.BALL_STARTX = this.GAME_WIDTH / 2);
-        this.gameBall.pos.y = Math.floor(this.GAME_HEIGHT * .35 - this.STAGE_PADDING * 2);
+        this.gameBall.pos.y = Math.floor(this.SCORE_BOARD_HEIGHT + (BRICK_ROWS * (this.BRICK_HEIGHT + this.BRICK_PADDING)) + this.STAGE_PADDING * 3);
 
         this.gamePaddle.width = Math.floor(this.GAME_WIDTH * .10);
         this.gamePaddle.pos.x = Math.floor(this.PADDLE_STARTX = Math.floor(this.gameWidth / 2 - this.PADDLE_WIDTH / 2));

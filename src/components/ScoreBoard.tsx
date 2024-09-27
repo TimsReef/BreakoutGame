@@ -75,8 +75,9 @@ export class ScoreBoard {
 
         ctx.font = "12px Arial";
         ctx.fillStyle = 'red';
-        let text = i18n.t('score', { score: this.score });
-        ctx.fillText(text, this.position.x + this.BORDER, this.position.y + this.height / 2, 200);
+        let scoreText = i18n.t('score', { score: this.score });
+        let m: TextMetrics = ctx.measureText(scoreText);
+        ctx.fillText(scoreText, this.position.x + this.BORDER, this.position.y + this.height / 2, m.width);
 
         const x = (this.width / 2) - ((this.ballSize + this.BALL_GAP) * this.ballCount) / 2 - (this.BORDER * 2);
         for (let i = 0; i < this.ballCount; i++) {
@@ -89,7 +90,7 @@ export class ScoreBoard {
         }
         ctx.fillStyle = 'lime';
         const levelText = i18n.t('level', { level: this.level });
-        const m: TextMetrics = ctx.measureText(levelText);
-        ctx.fillText(levelText, this.position.x + this.width - m.width - this.BORDER, this.position.y + this.height / 2, 200);
+        m = ctx.measureText(levelText);
+        ctx.fillText(levelText, this.position.x + this.width - m.width - this.BORDER, this.position.y + this.height / 2, m.width);
     }
 }
